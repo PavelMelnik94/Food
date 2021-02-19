@@ -175,16 +175,34 @@ const modalButtons = document.querySelectorAll('[data-modal]'),
 modalButtons.forEach(item => {
     item.addEventListener('click', () => {
     modalWindow.style.display = 'block';
-
+    if (modalWindow.style.display == 'block') {
+        document.body.style.overflow = 'hidden';
+    }
     });
 });
 
 
 modalClose.addEventListener('click', ()=> {
     modalWindow.style.display = 'none';
+    if (modalWindow.style.display == 'none') {
+        document.body.style.overflow = 'scroll';
+    }
+});
+
+modalWindow.addEventListener('click', (e) => {
+    if (e.target === modalWindow) {
+        modalWindow.style.display = 'none';
+        document.body.style.overflow = 'scroll';
+    }
 });
 
 
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        modalWindow.style.display = 'none';
+        document.body.style.overflow = 'scroll';
+    }
+});
 
 
 
