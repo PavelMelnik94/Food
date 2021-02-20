@@ -10,7 +10,8 @@ window.addEventListener('DOMContentLoaded', function () {
             item.style.display = 'none'; //скрывает контент у каждого таба
         });
         tabs.forEach(item => { //перебираем каждый таб по отдельности
-            item.classList.remove('tabheader__item_active'); // и если на каком-то назначен класс активности, то убираем его.
+            item.classList.remove('tabheader__item_active'); 
+            // и если на каком-то назначен класс активности, то убираем его.
         });
     }
 
@@ -53,12 +54,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
         const t = Date.parse(endtime) - Date.parse(new Date()),
             // создаем локальную переменную в которую методом Date.parse разбираем строковое значение
-            // и переводим его в милисекунды. от этих милисекунд отнимаем также переведенное в милисекунды ВРЕМЯ ДАТЫ ИЗ СИСТЕМЫ.
+            // и переводим его в милисекунды. 
+            //от этих милисекунд отнимаем также переведенное в милисекунды ВРЕМЯ ДАТЫ ИЗ СИСТЕМЫ.
             // получаем разницу которую и будет отщитывать таймер.
 
             days = Math.floor((t / (1000 * 60 * 60 * 24))),
             //  вычисляем дни. выводим разультат без остатся через math.floor.
-            // РАЗНИЦУ делим на произведение (1000 милисекунд  * на 60(так получаем количество милисекунд в одной минуте) 
+            // РАЗНИЦУ делим на произведение
+            // (1000 милисекунд  * на 60(так получаем количество милисекунд в одной минуте) 
             //умноженые ещё раз на 60(получаем сколько в одном часе) 
             //и умножаем еще раз на 24 часа(и получаем сколько в сутках будет милисекунд) ).
             // арифметика в скобках - получение милисекунд в одних сутках. 
@@ -108,10 +111,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
             days = timer.querySelector('#days'), // получаем айди #days обращаясь не к документу а сразу к таймеру
             hours = timer.querySelector('#hours'), // получаем айди #hours обращаясь не к документу а сразу к таймеру
-            minutes = timer.querySelector('#minutes'), // получаем айди #minutes обращаясь не к документу а сразу к таймеру
-            seconds = timer.querySelector('#seconds'), // получаем айди #seconds обращаясь не к документу а сразу к таймеру
+            minutes = timer.querySelector('#minutes'), 
+            // получаем айди #minutes обращаясь не к документу а сразу к таймеру
+            seconds = timer.querySelector('#seconds'), 
+            // получаем айди #seconds обращаясь не к документу а сразу к таймеру
             timeInterval = setInterval(updateClock, 1000);
-        // устанавливаем, что с интервалом в секунду будем запускать функцию updateClock. имитация стрелки часов. тик-так :)
+        // устанавливаем, что с интервалом в секунду будем 
+        //запускать функцию updateClock. имитация стрелки часов. тик-так :)
 
         updateClock();
         // запускается тут, для того, что бы не было скачков и она начинала действовать с момента загрузки страницы.
@@ -213,5 +219,64 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     window.addEventListener('scroll', showModalByScroll);
+
+
+
+
+    // card CLASS
+
+    class MenuCard {
+        constructor(src, alt, title, descr, price, parentSelector) {
+            this.src = src;
+            this.alt = alt;
+            this.title = title;
+            this.descr = descr;
+            this.price = price;
+            this.parent = document.querySelector(parentSelector);
+            this.transfer = 27;
+            this.changeToUAH();
+        }
+        changeToUAH() {
+            this.price = +this.price * this.transfer;
+        }
+
+        render() {
+            const element = document.createElement('div');
+            element.innerHTML = `
+            <div class="menu__item">
+                <img src=${this.src} alt=${this.alt}>
+                <h3 class="menu__item-subtitle">${this.title}</h3>
+                    <div class="menu__item-descr">${this.descr}</div>
+                    <div class="menu__item-divider"></div>
+                    <div class="menu__item-price">
+                        <div class="menu__item-cost">Цена:</div>
+                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    </div>
+            </div>
+            `;
+            this.parent.append(element);
+        }
+    }
+
+    // это один из способов вызова нашего класса:
+    // const div = new MenuCard();   
+    // div.render();
+
+    // второй способ:
+
+    new MenuCard(
+        "img/tabs/vegy.jpg",
+        "vegy",
+        'Меню "Фитнес"',
+        `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих
+        овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной
+        ценой и высоким качеством!`,
+        9,
+        '.menu .container'
+    ).render();
+
+
+
+
 
 }); //техническая функция загрузки DOM
